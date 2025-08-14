@@ -1,0 +1,55 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Java
+*.class
+*.log
+*.ctxt
+.mtj.tmp/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+
+# Spring Boot
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# H2 Database files
+*.db
+*.mv.db
+*.trace.db
+
+# Logs
+logs/
+*.log
