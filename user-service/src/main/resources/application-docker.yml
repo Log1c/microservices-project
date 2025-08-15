@@ -1,0 +1,42 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:h2:mem:userdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+# Enable actuator for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.example.userservice: INFO
+    org.springframework: WARN

@@ -4,4 +4,5 @@ dependencies {
     implementation 'com.h2database:h2'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
     implementation 'org.springframework.boot:spring-boot-starter-webflux' // For WebClient
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
