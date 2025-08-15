@@ -54,7 +54,7 @@ microservices-project/
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Log1c/microservices-project.git
 cd microservices-project
 ```
 
@@ -310,7 +310,7 @@ docker network inspect microservices-project_microservices-network
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License
 
 ## 👥 Authors
 
