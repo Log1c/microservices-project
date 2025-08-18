@@ -20,27 +20,53 @@ spring:
       settings:
         web-allow-others: true
 
-# Use environment variable or default to localhost
 user-service:
-  base-url: ${USER_SERVICE_URL:http://localhost:8081}
+  base-url: ${USER_SERVICE_URL:http://user-service:8081}
 
-# Enable actuator for health checks
+# Resilience4j Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.net.ConnectException
+        ignoreExceptions:
+          - org.springframework.web.client.HttpClientErrorException.BadRequest
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,circuitbreakers,circuitbreakerevents
   endpoint:
     health:
       show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
 
 springdoc:
   api-docs:
     path: /api-docs
+    enabled: true
   swagger-ui:
     path: /swagger-ui.html
+    enabled: true
+    try-it-out-enabled: true
+  show-actuator: false
 
 logging:
   level:
     com.example.orderservice: INFO
     org.springframework: WARN
+    io.github.resilience4j: DEBUG
