@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -51,7 +52,8 @@ public class OrderController {
         log.info("Creating order for user: {}", order.getUserId());
 
         // Try to validate user exists using circuit breaker
-        UserDto user = userServiceClient.getUserById(order.getUserId());
+        CompletableFuture<UserDto> userFuture = userServiceClient.getUserById(order.getUserId());
+        UserDto user = userFuture.join();
 
         Map<String, Object> response = new HashMap<>();
 
@@ -100,7 +102,9 @@ public class OrderController {
     public ResponseEntity<?> getUserDetails(@PathVariable Long userId) {
         log.info("Fetching user details for user: {}", userId);
 
-        UserDto user = userServiceClient.getUserById(userId);
+        // Try to validate user exists using circuit breaker
+        CompletableFuture<UserDto> userFuture = userServiceClient.getUserById(userId);
+        UserDto user = userFuture.join();
 
         if (user == null) {
             Map<String, String> error = new HashMap<>();

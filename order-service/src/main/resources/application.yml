@@ -43,17 +43,47 @@ resilience4j:
           - org.springframework.web.client.HttpServerErrorException
           - java.util.concurrent.TimeoutException
           - java.net.ConnectException
+          - java.lang.RuntimeException
         ignoreExceptions:
           - org.springframework.web.client.HttpClientErrorException.BadRequest
+          - org.springframework.web.client.HttpClientErrorException.NotFound
+
+  # Retry Configuration
+  retry:
+    instances:
+      user-service:
+        maxAttempts: 3
+        waitDuration: 1s
+        exponentialBackoffMultiplier: 2
+        retryExceptions:
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.net.ConnectException
+          - java.lang.RuntimeException
+        ignoreExceptions:
+          - org.springframework.web.client.HttpClientErrorException.BadRequest
+          - org.springframework.web.client.HttpClientErrorException.Unauthorized
+          - org.springframework.web.client.HttpClientErrorException.NotFound
+        enableExponentialBackoff: true
+        enableRandomizedWait: false
+
+  # TimeLimiter Configuration
+  timelimiter:
+    instances:
+      user-service:
+        timeoutDuration: 3s
+        cancelRunningFuture: true
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,circuitbreakers,circuitbreakerevents
+        include: health,info,circuitbreakers,circuitbreakerevents,retries,retryevents,timelimiters
   endpoint:
     health:
       show-details: always
   health:
     circuitbreakers:
+      enabled: true
+    retries:
       enabled: true
